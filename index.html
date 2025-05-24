@@ -2,32 +2,46 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>B2の値取得デモ</title>
+  <title>スプレッドシートB2取得</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      font-family: sans-serif;
+      font-family: 'Arial', sans-serif;
+      background: #f0f8ff;
+      color: #333;
       text-align: center;
-      margin-top: 3rem;
+      padding: 2rem;
+    }
+    h1 {
+      margin-bottom: 1rem;
+      color: #005580;
+    }
+    #output {
+      font-size: 1.5rem;
+      margin-top: 1rem;
     }
   </style>
 </head>
 <body>
-  <h1>GoogleスプレッドシートのB2の値</h1>
-  <p id="output">読み込み中...</p>
+  <h1>スプレッドシートのB2の値</h1>
+  <div id="output">読み込み中...</div>
 
   <script>
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbx977dnvmsnaYNwq7JDoUwGPv-B2kPXNEA6_q0NTl7IO8aZ55v2Lq_dBX4xV1Qqhs9S/exec";
-
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbzhjW129-78RoLKtH3MylztM7fD7odrADk35HBzGTOOFmKNF109DCLIcrLmg9gr8UXG/exec";
 
     fetch(GAS_URL)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then(data => {
-        document.getElementById("output").textContent = data.value || "値がありません";
+        document.getElementById("output").textContent = data.value || "B2に値がありません";
       })
       .catch(error => {
-        document.getElementById("output").textContent = "読み込みに失敗しました";
         console.error("Fetch error:", error);
+        document.getElementById("output").textContent = "読み込みに失敗しました";
       });
   </script>
 </body>
